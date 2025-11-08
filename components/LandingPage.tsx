@@ -16,18 +16,26 @@ const EnvelopeIcon = () => (
 const LandingPage: React.FC<LandingPageProps> = ({ onOpen }) => {
   return (
     <motion.div
-      className="fixed inset-0 bg-warm-cream z-50 flex flex-col items-center justify-center text-center p-4"
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center text-center p-4 bg-transparent"
       exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.5 } }}
     >
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: "url('https://res.cloudinary.com/dubg7bfmv/image/upload/v1762592499/emaa_1_71_2_1_xtwurg.jpg')",
+        }}
+      />
+      <div className="absolute inset-0 bg-deep-umber/50" />
+
       <FloatingParticles />
       <div className="relative z-10">
         <motion.h1 
-            className="font-headline text-4xl md:text-6xl text-deep-umber mb-8"
+            className="font-headline text-4xl md:text-6xl text-warm-cream mb-8 drop-shadow-lg"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
+            transition={{ duration: 1, ease: 'easeOut', delay: 0.5 }}
         >
-            A Message For Ema
+            Message for Ema
         </motion.h1>
         <motion.button
           onClick={onOpen}
@@ -37,12 +45,12 @@ const LandingPage: React.FC<LandingPageProps> = ({ onOpen }) => {
           whileTap={{ scale: 0.95 }}
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.5, type: 'spring' }}
+          transition={{ duration: 0.8, delay: 1.2, type: 'spring' }}
         >
           <div className="p-6 bg-soft-peach rounded-full shadow-lg">
             <EnvelopeIcon />
           </div>
-          <span className="mt-4 block font-medium text-deep-umber/90 group-hover:text-muted-rose transition-colors">Click to Open</span>
+          <span className="mt-4 block font-medium text-warm-cream/90 group-hover:text-soft-peach transition-colors">Click to Open</span>
         </motion.button>
       </div>
     </motion.div>
