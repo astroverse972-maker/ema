@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence, animate } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 
 const images = [
@@ -144,18 +144,10 @@ const ZoomModal: React.FC<{ src: string, onClose: () => void }> = ({ src, onClos
     </motion.div>
 );
 
-interface LetterPageProps {
-  onFolderOpen: () => void;
-  onFolderClose: () => void;
-}
-
-const LetterPage: React.FC<LetterPageProps> = ({ onFolderOpen, onFolderClose }) => {
+const LetterPage: React.FC = () => {
     const [isWindowOpen, setIsWindowOpen] = useState(false);
     const [hasFolderBeenOpened, setHasFolderBeenOpened] = useState(false);
     const [isZoomModalOpen, setIsZoomModalOpen] = useState(false);
-
-    const folderAudioRef = useRef<HTMLAudioElement>(null);
-    const isInitialMount = useRef(true);
     
     const contentVariant = {
         hidden: { opacity: 0, y: 40 },
@@ -166,50 +158,6 @@ const LetterPage: React.FC<LetterPageProps> = ({ onFolderOpen, onFolderClose }) 
         }
     };
 
-    const fadeFolderAudio = (targetVolume: number, duration: number = 500, onComplete?: () => void) => {
-        const audio = folderAudioRef.current;
-        if (!audio) return;
-        
-        if (targetVolume > 0 && audio.paused) {
-          audio.currentTime = 0;
-          audio.play().catch(error => console.error("Audio playback failed:", error));
-        }
-        
-        const controls = animate(audio.volume, targetVolume, {
-          duration: duration / 1000,
-          onUpdate: (latest) => {
-            if (audio) audio.volume = latest;
-          },
-          onComplete: () => {
-            if (targetVolume === 0 && audio) {
-              audio.pause();
-              audio.currentTime = 0;
-            }
-            onComplete?.();
-          }
-        });
-        
-        return () => controls.stop();
-    };
-
-    useEffect(() => {
-        if (isWindowOpen) {
-            onFolderOpen();
-            if (folderAudioRef.current) {
-                folderAudioRef.current.volume = 0;
-            }
-            fadeFolderAudio(1, 500);
-        } else {
-            if (isInitialMount.current) {
-                isInitialMount.current = false;
-            } else {
-                fadeFolderAudio(0, 500, () => {
-                    onFolderClose();
-                });
-            }
-        }
-    }, [isWindowOpen, onFolderOpen, onFolderClose]);
-
     const handleOpenFolder = () => {
         setIsWindowOpen(true);
         if (!hasFolderBeenOpened) {
@@ -219,12 +167,6 @@ const LetterPage: React.FC<LetterPageProps> = ({ onFolderOpen, onFolderClose }) 
 
   return (
     <main className="bg-transparent relative text-deep-umber/90 overflow-x-hidden">
-      <audio
-        ref={folderAudioRef}
-        src="https://res.cloudinary.com/dubg7bfmv/video/upload/v1762594635/jojoj_rscpg4.mp3"
-        preload="auto"
-      />
-      
       <div className="relative z-10">
         {/* The Letter */}
         <div className="flex flex-col items-center justify-center pt-24 sm:pt-32 pb-16 px-4 space-y-12">

@@ -37,16 +37,6 @@ const App: React.FC = () => {
     }
   }, [isLetterOpened]);
 
-  const pauseMainAudio = () => {
-    fadeAudio(0, 500);
-  };
-
-  const playMainAudio = () => {
-    if (isLetterOpened) {
-       fadeAudio(1, 500);
-    }
-  };
-
   return (
     <div className="bg-gradient-to-b from-soft-peach to-warm-cream text-deep-umber min-h-screen font-ui selection:bg-muted-rose selection:text-warm-cream">
       <audio
@@ -65,7 +55,7 @@ const App: React.FC = () => {
             animate={{ opacity: 1 }} 
             transition={{ duration: 0.8 }}
          >
-            <LetterPage onFolderOpen={pauseMainAudio} onFolderClose={playMainAudio} />
+            <LetterPage />
         </motion.div>
       )}
 

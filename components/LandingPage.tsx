@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import FloatingParticles from './FloatingParticles';
 
@@ -14,6 +14,18 @@ const EnvelopeIcon = () => (
 
 
 const LandingPage: React.FC<LandingPageProps> = ({ onOpen }) => {
+  const [countdown, setCountdown] = useState(5);
+
+  useEffect(() => {
+    if (countdown <= 0) return;
+
+    const timerId = setInterval(() => {
+      setCountdown((prevCount) => prevCount - 1);
+    }, 1000);
+
+    return () => clearInterval(timerId);
+  }, [countdown]);
+
   return (
     <motion.div
       className="fixed inset-0 z-50 flex flex-col items-center justify-center text-center p-4 bg-transparent"
@@ -29,11 +41,19 @@ const LandingPage: React.FC<LandingPageProps> = ({ onOpen }) => {
 
       <FloatingParticles />
       <div className="relative z-10">
+        <motion.div
+            className="font-ui text-lg text-warm-cream/80 mb-4 tracking-widest"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: [0, 1, 1, 0] }}
+            transition={{ duration: 5, times: [0, 0.1, 0.9, 1] }}
+        >
+            {countdown > 0 ? `LOADING... ${countdown}` : ' '}
+        </motion.div>
         <motion.h1 
             className="font-headline text-4xl md:text-6xl text-warm-cream mb-8 drop-shadow-lg"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: 'easeOut', delay: 0.5 }}
+            transition={{ duration: 1, ease: 'easeOut', delay: 5 }}
         >
             Message for Ema
         </motion.h1>
@@ -45,7 +65,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onOpen }) => {
           whileTap={{ scale: 0.95 }}
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 1.2, type: 'spring' }}
+          transition={{ duration: 0.8, delay: 5.7, type: 'spring' }}
         >
           <div className="p-6 bg-soft-peach rounded-full shadow-lg">
             <EnvelopeIcon />
