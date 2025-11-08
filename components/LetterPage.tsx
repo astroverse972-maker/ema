@@ -59,7 +59,7 @@ const MacWindow: React.FC<{ images: string[]; onClose: () => void }> = ({ images
 
     return (
         <motion.div
-            drag
+            drag={!isMobile}
             dragHandle=".drag-handle"
             dragMomentum={false}
             className="w-[90vw] max-w-2xl h-[70vh] bg-warm-cream/95 backdrop-blur-md rounded-xl shadow-2xl flex flex-col overflow-hidden border border-black/10"
@@ -70,16 +70,31 @@ const MacWindow: React.FC<{ images: string[]; onClose: () => void }> = ({ images
         >
             {/* Title Bar */}
             <div className="drag-handle bg-neutral-200/80 px-2 sm:px-4 py-2 flex items-center gap-1 sm:gap-2 border-b border-black/10 cursor-grab active:cursor-grabbing">
-                <button onClick={onClose} className="w-8 h-8 md:w-6 md:h-6 flex-shrink-0 flex items-center justify-center rounded-full group" aria-label="Close window">
-                    <div className="w-3.5 h-3.5 bg-red-500 rounded-full border border-red-600/50 group-hover:bg-red-600"></div>
-                </button>
-                <div className="w-8 h-8 md:w-6 md:h-6 flex-shrink-0 flex items-center justify-center rounded-full">
-                    <div className="w-3.5 h-3.5 bg-yellow-500 rounded-full border border-yellow-600/50"></div>
-                </div>
-                <div className="w-8 h-8 md:w-6 md:h-6 flex-shrink-0 flex items-center justify-center rounded-full">
-                    <div className="w-3.5 h-3.5 bg-green-500 rounded-full border border-green-600/50"></div>
-                </div>
-                <span className="ml-auto text-sm font-medium text-neutral-600 truncate px-2">WP</span>
+                {isMobile ? (
+                    <>
+                        <span className="text-sm font-medium text-neutral-600">WP</span>
+                        <button 
+                            onClick={onClose} 
+                            className="ml-auto bg-neutral-300 hover:bg-neutral-400 text-neutral-700 font-semibold py-1 px-3 rounded-md text-sm transition-colors"
+                            aria-label="Close window"
+                        >
+                            Close
+                        </button>
+                    </>
+                ) : (
+                    <>
+                        <button onClick={onClose} className="w-8 h-8 md:w-6 md:h-6 flex-shrink-0 flex items-center justify-center rounded-full group" aria-label="Close window">
+                            <div className="w-3.5 h-3.5 bg-red-500 rounded-full border border-red-600/50 group-hover:bg-red-600"></div>
+                        </button>
+                        <div className="w-8 h-8 md:w-6 md:h-6 flex-shrink-0 flex items-center justify-center rounded-full">
+                            <div className="w-3.5 h-3.5 bg-yellow-500 rounded-full border border-yellow-600/50"></div>
+                        </div>
+                        <div className="w-8 h-8 md:w-6 md:h-6 flex-shrink-0 flex items-center justify-center rounded-full">
+                            <div className="w-3.5 h-3.5 bg-green-500 rounded-full border border-green-600/50"></div>
+                        </div>
+                        <span className="ml-auto text-sm font-medium text-neutral-600 truncate px-2">WP</span>
+                    </>
+                )}
             </div>
 
             {/* Content */}
